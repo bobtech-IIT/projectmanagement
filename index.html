@@ -1,0 +1,2404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management Mastery</title>
+    <!-- Poppins font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                        mono: ['monospace'],
+                    },
+                    colors: {
+                        'primary-blue': '#4a90e2', /* A vibrant blue */
+                        'dark-blue': '#2c3e50',   /* Deep charcoal for strong contrast */
+                        'light-blue': '#e8f0fe',  /* Very light blue for backgrounds */
+                        'light-gray': '#f4f7f9',  /* Soft gray for section backgrounds */
+                        'medium-gray': '#d1d5db', /* For borders and subtle lines */
+                        'text-dark': '#374151',   /* Dark gray for primary text */
+                        'text-light': '#6b7280',  /* Medium gray for secondary text */
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom styles for the modal overlay and content */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Dark overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999; /* Ensure it's on top */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 1rem; /* Rounded corners */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* Stronger shadow */
+            position: relative;
+            transform: translateY(20px); /* Initial slight offset */
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .modal-overlay.show .modal-content {
+            transform: translateY(0); /* Slide into place */
+        }
+    </style>
+</head>
+<body class="font-sans text-base leading-relaxed bg-light-gray text-text-dark pb-10">
+
+    <!-- Sticky Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-white shadow-lg py-4 px-6 md:px-10 flex flex-col md:flex-row items-center justify-between rounded-b-xl">
+        <div class="text-2xl font-bold text-dark-blue mb-4 md:mb-0">
+            PMP Mastery
+        </div>
+        <div class="flex items-center space-x-6">
+            <div class="relative group">
+                <button class="flex items-center text-text-dark hover:text-primary-blue font-semibold focus:outline-none px-4 py-2 rounded-lg transition-colors duration-200">
+                    Chapters
+                    <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+                <div class="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-1 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto">
+                    <a href="#preface" class="block px-4 py-2 text-text-dark hover:bg-light-blue rounded-md">Preface</a>
+                    <a href="#intro-pmi-exam" class="block px-4 py-2 text-text-dark hover:bg-light-blue rounded-md">Chapter 1: Intro to PMI</a>
+                    <a href="#pm-framework" class="block px-4 py-2 text-text-dark hover:bg-light-blue rounded-md">Chapter 2: PM Framework</a>
+                    <a href="#process-groups" class="block px-4 py-2 text-text-dark hover:bg-light-blue rounded-md">Chapter 3: Process Groups</a>
+                    <a href="#knowledge-areas" class="block px-4 py-2 text-text-dark hover:bg-light-blue rounded-md">Chapter 4: Knowledge Areas</a>
+                    <a href="#tools-formulas" class="block px-4 py-2 text-text-dark hover:bg-light-blue rounded-md">Chapter 5: Tools & Formulas</a>
+                    <a href="#agile-hybrid" class="block px-4 py-2 text-text-dark hover:bg-light-blue rounded-md">Chapter 6: Agile & Hybrid</a>
+                    <a href="#exam-strategies" class="block px-4 py-2 text-text-dark hover:bg-light-blue rounded-md">Chapter 7: Exam Strategies</a>
+                    <a href="#sample-questions" class="block px-4 py-2 text-text-dark hover:bg-light-blue rounded-md">Chapter 8: Sample Questions</a>
+                </div>
+            </div>
+            <button id="askAlexBtn"
+                    class="bg-primary-blue hover:bg-blue-600 text-white font-bold py-2.5 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary-blue focus:ring-opacity-50">
+                Ask Alex
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="bg-primary-blue text-white py-20 px-6 sm:px-10 md:px-20 text-center rounded-b-xl shadow-lg">
+        <div class="max-w-2xl mx-auto">
+            <h1 class="text-5xl md:text-6xl font-extrabold mb-8">
+                PMP Mastery Guide
+            </h1>
+            <a href="#intro-pmi-exam" class="inline-block bg-white text-primary-blue hover:bg-gray-100 font-bold py-3 px-8 rounded-full shadow-lg transition-all duration-300 transform hover:scale-105">
+                Enter
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content Container (PMP Guide) -->
+    <div id="content" class="container max-w-3xl mx-auto bg-white shadow-lg rounded-xl p-6 sm:p-8 md:p-10 mt-10">
+        <h1 class="text-4xl font-extrabold text-center text-dark-blue mb-8 mt-4">Project Management Mastery</h1>
+        <h2 class="text-2xl font-bold text-center text-text-dark mb-6">The Ultimate Last-Minute Guide to Pass the PMI Exam on Your First Try</h2>
+        <h3 class="xl font-medium text-center text-text-light mb-10">By Alex Mercer</h3>
+
+        <!-- Preface -->
+        <h2 id="preface" class="text-2xl font-semibold border-b-2 border-primary-blue pb-3 mb-6 mt-10">Preface</h2>
+        <p class="mb-6 text-text-dark">Welcome to Project Management Mastery, your concise, accurate, and focused last-minute guide designed specifically to help you pass the PMI Project Management Professional (PMP) exam on your first attempt. This handbook distills the most critical information you need, with practice questions modeled on the actual exam, to build confidence and mastery in key areas tested by PMI.</p>
+
+        <!-- Chapter 1 -->
+        <h2 id="intro-pmi-exam" class="text-2xl font-semibold border-b-2 border-primary-blue pb-3 mb-6 mt-10">Chapter 1: Introduction to PMI and the PMP Exam</h2>
+        <h3 class="text-xl font-medium text-text-dark mb-4">What is PMI?</h3>
+        <p class="mb-6 text-text-dark">The Project Management Institute (PMI) is the leading global organization dedicated to advancing project management principles and practices. It sets standards, offers certifications, and provides resources that support project managers worldwide.</p>
+
+        <div class="infographic bg-light-blue p-6 rounded-lg shadow-md my-6 border border-medium-gray">
+            <h4 class="text-lg font-semibold text-dark-blue mb-3">PMI Hierarchy</h4>
+            <pre class="font-mono text-sm bg-blue-100 p-4 rounded-md overflow-x-auto whitespace-pre-wrap text-text-dark">
+                PMI -> The Project Management Institute
+                  |
+                  ├── PMBOK Guide (A Guide to the Project Management Body of Knowledge)
+                  |
+                  ├── Certifications (PMP, CAPM, etc.)
+                  |
+                  ├── Standards (e.g., Agile Practice Guide)
+                  |
+                  └── Resources (Templates, Communities, etc.)
+            </pre>
+        </div>
+
+        <h3 class="text-xl font-medium text-text-dark mb-4">Overview of the PMP Exam</h3>
+        <p class="mb-6 text-text-dark">The Project Management Professional (PMP) credential is the most recognized certification for project managers, validating your knowledge and experience in leading projects effectively across various industries.</p>
+
+        <h3 class="text-xl font-medium text-text-dark mb-4">Exam Format and Scoring</h3>
+        <ul class="list-disc list-inside mb-6 space-y-2 text-text-dark">
+            <li><b class="font-semibold text-dark-blue">Number of Questions:</b> 180 (5 are pretest questions that do not affect your score)</li>
+            <li><b class="font-semibold text-dark-blue">Duration:</b> 230 minutes</li>
+            <li><b class="font-semibold text-dark-blue">Question Type:</b> Multiple-choice, multiple responses, matching, hotspot, and fill-in-the-blank</li>
+            <li><b class="font-semibold text-dark-blue">Passing Score:</b> PMI does not publicly disclose the exact passing score.</li>
+        </ul>
+
+        <h3 class="text-xl font-medium text-text-dark mb-4">Eligibility and Application Process</h3>
+        <p class="mb-6 text-text-dark">To be eligible for the PMP exam, you need to meet education and experience requirements and then apply through the PMI website.</p>
+        <ul class="list-disc list-inside mb-6 space-y-2 text-text-dark">
+            <li><b class="font-semibold text-dark-blue">Education:</b> Secondary degree (high school diploma, associate degree) requires 5 years/7,500 hours leading projects + 35 hours of project management education</li>
+            <li><b class="font-semibold text-dark-blue">OR</b> Four-year degree requires 3 years/4,500 hours leading projects + 35 hours of project management education</li>
+        </ul>
+
+        <!-- Chapter 2 -->
+        <h2 id="pm-framework" class="text-2xl font-semibold border-b-2 border-primary-blue pb-3 mb-6 mt-10">Chapter 2: Project Management Framework</h2>
+        <h3 class="text-xl font-medium text-text-dark mb-4">Project, Program, and Portfolio Management</h3>
+        <ul class="list-disc list-inside mb-6 space-y-2 text-text-dark">
+            <li><b class="font-semibold text-dark-blue">Project:</b> A temporary endeavor undertaken to create a unique product, service, or result.</li>
+            <li><b class="font-semibold text-dark-blue">Program:</b> A group of related projects managed in a coordinated manner to obtain benefits not available from managing them individually.</li>
+            <li><b class="font-semibold text-dark-blue">Portfolio:</b> Collection of projects, programs, and operations managed as a group to achieve strategic objectives.</li>
+        </ul>
+
+        <div class="infographic bg-light-blue p-6 rounded-lg shadow-md my-6 border border-medium-gray">
+            <h4 class="text-lg font-semibold text-dark-blue mb-3">Project Hierarchy Pyramid</h4>
+            <pre class="font-mono text-sm bg-blue-100 p-4 rounded-md overflow-x-auto whitespace-pre-wrap text-text-dark">
+                      Portfolio
+                     /        \
+               Program 1        Program 2
+              /        \        /        \
+            Project A Project B Project C Project D
+            </pre>
+        </div>
+
+        <h3 class="text-xl font-medium text-text-dark mb-4">Project Management Processes</h3>
+        <p class="mb-6 text-text-dark">The project management process is made up of 49 processes, categorized into five process groups and ten knowledge areas.</p>
+
+        <div class="infographic bg-light-blue p-6 rounded-lg shadow-md my-6 border border-medium-gray">
+            <h4 class="text-lg font-semibold text-dark-blue mb-3">Process Group vs. Knowledge Area Matrix (Simplified View)</h4>
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse my-6 text-text-dark text-sm">
+                    <thead class="bg-blue-200">
+                        <tr>
+                            <th class="border border-medium-gray px-4 py-2 text-left font-bold text-dark-blue min-w-[120px]">Process Group</th>
+                            <th class="border border-medium-gray px-4 py-2 text-left font-bold text-dark-blue">Integration</th>
+                            <th class="border border-medium-gray px-4 py-2 text-left font-bold text-dark-blue">Scope</th>
+                            <th class="border border-medium-gray px-4 py-2 text-left font-bold text-dark-blue">Schedule</th>
+                            <th class="border border-medium-gray px-4 py-2 text-left font-bold text-dark-blue">Cost</th>
+                            <th class="border border-medium-gray px-4 py-2 text-left font-bold text-dark-blue">Quality</th>
+                            <th class="border border-medium-gray px-4 py-2 text-left font-bold text-dark-blue">Resource</th>
+                            <th class="border border-medium-gray px-4 py-2 text-left font-bold text-dark-blue">Communication</th>
+                            <th class="border border-medium-gray px-4 py-2 text-left font-bold text-dark-blue">Risk</th>
+                            <th class="border border-medium-gray px-4 py-2 text-left font-bold text-dark-blue">Procurement</th>
+                            <th class="border border-medium-gray px-4 py-2 text-left font-bold text-dark-blue">Stakeholder</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border border-medium-gray px-4 py-2">Initiating</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2"></td>
+                            <td class="border border-medium-gray px-4 py-2"></td>
+                            <td class="border border-medium-gray px-4 py-2"></td>
+                            <td class="border border-medium-gray px-4 py-2"></td>
+                            <td class="border border-medium-gray px-4 py-2"></td>
+                            <td class="border border-medium-gray px-4 py-2"></td>
+                            <td class="border border-medium-gray px-4 py-2"></td>
+                            <td class="border border-medium-gray px-4 py-2"></td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-medium-gray px-4 py-2">Planning</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-medium-gray px-4 py-2">Executing</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2"></td>
+                            <td class="border border-medium-gray px-4 py-2"></td>
+                            <td class="border border-medium-gray px-4 py-2"></td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2"></td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-medium-gray px-4 py-2">Monitoring &amp; Controlling</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2"></td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-medium-gray px-4 py-2">Closing</td>
+                            <td class="border border-medium-gray px-4 py-2 text-center font-bold">X</td>
+                            <td class="border border-medium-gray px-4 py-2"></td>
+                            <td class="border border-medium-gray px-4 py-2"></td>
+                            <td class="border border-medium-gray px-4 py-2"></td>
+                            <td class="border border-medium-gray px-4 py-2"></td>
+                            <td class="border border-medium-gray px-4 py-2"></td>
+                            <td class="border border-medium-gray px-4 py-2"></td>
+                            <td class="border border-medium-gray px-4 py-2"></td>
+                            <td class="border border-medium-gray px-4 py-2"></td>
+                            <td class="border border-medium-gray px-4 py-2"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h3 class="text-xl font-medium text-text-dark mb-4">Project Life Cycle and Phases</h3>
+        <p class="mb-6 text-text-dark">A project passes through phases, from initiating to closing.</p>
+
+        <div class="infographic bg-light-blue p-6 rounded-lg shadow-md my-6 border border-medium-gray">
+            <h4 class="text-lg font-semibold text-dark-blue mb-3">Project Life Cycle Flow</h4>
+            <pre class="font-mono text-sm bg-blue-100 p-4 rounded-md overflow-x-auto whitespace-pre-wrap text-text-dark">
+[Concept/Initiation] --> [Planning] --> [Execution] --> [Monitoring & Controlling] --> [Closing]
+            </pre>
+        </div>
+
+        <h3 class="text-xl font-medium text-text-dark mb-4">Organizational Influences and Systems</h3>
+        <ul class="list-disc list-inside mb-6 space-y-2 text-text-dark">
+            <li><b class="font-semibold text-dark-blue">Enterprise Environmental Factors (EEFs):</b> Internal and external factors affecting project outcomes (e.g., company culture, government regulations).</li>
+            <li><b class="font-semibold text-dark-blue">Organizational Process Assets (OPAs):</b> Company-specific processes, knowledge bases, templates, historical information.</li>
+        </ul>
+
+        <!-- Chapter 3 -->
+        <h2 id="process-groups" class="text-2xl font-semibold border-b-2 border-primary-blue pb-3 mb-6 mt-10">Chapter 3: The Five Process Groups</h2>
+        <p class="mb-6 text-text-dark">PMI organizes project management processes into five Process Groups. These groups are not phases but categories of processes that occur throughout the project life cycle.</p>
+
+        <div class="infographic bg-light-blue p-6 rounded-lg shadow-md my-6 border border-medium-gray">
+            <h4 class="text-lg font-semibold text-dark-blue mb-3">The Five Process Groups Cycle (Text Flow)</h4>
+            <pre class="font-mono text-sm bg-blue-100 p-4 rounded-md overflow-x-auto whitespace-pre-wrap text-text-dark">
+Initiating --> Planning --> Executing --> Monitoring & Controlling --> Closing
+  ↑                                                                 ↓
+  └-------------------------------------------------------┘
+  (Continuous Feedback and Iteration)
+            </pre>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse my-6 text-text-dark text-sm">
+                <thead class="bg-blue-200">
+                    <tr>
+                        <th class="border border-medium-gray px-4 py-2 text-left font-bold text-dark-blue min-w-[120px]">Process Group</th>
+                        <th class="border border-medium-gray px-4 py-2 text-left font-bold text-dark-blue">Description</th>
+                        <th class="border border-medium-gray px-4 py-2 text-left font-bold text-dark-blue">Typical Activities</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border border-medium-gray px-4 py-2">Initiating</td>
+                        <td class="border border-medium-gray px-4 py-2">Define a new project or phase by obtaining authorization.</td>
+                        <td class="border border-medium-gray px-4 py-2">Develop Project Charter, Identify Stakeholders</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-medium-gray px-4 py-2">Planning</td>
+                        <td class="border border-medium-gray px-4 py-2">Establish the scope, objectives, and course of action.</td>
+                        <td class="border border-medium-gray px-4 py-2">Define Scope, Schedule, Cost, Risk Plans</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-medium-gray px-4 py-2">Executing</td>
+                        <td class="border border-medium-gray px-4 py-2">Complete the work defined by the plan.</td>
+                        <td class="border border-medium-gray px-4 py-2">Manage Teams, Resources, Quality</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-medium-gray px-4 py-2">Monitoring and Controlling</td>
+                        <td class="border border-medium-gray px-4 py-2">Track, review, and regulate the progress and performance.</td>
+                        <td class="border border-medium-gray px-4 py-2">Performance Reports, Change Control</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-medium-gray px-4 py-2">Closing</td>
+                        <td class="border border-medium-gray px-4 py-2">Finalize all activities and formally close the project.</td>
+                        <td class="border border-medium-gray px-4 py-2">Obtain Acceptance, Archive Documents</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Chapter 4 -->
+        <h2 id="knowledge-areas" class="text-2xl font-semibold border-b-2 border-primary-blue pb-3 mb-6 mt-10">Chapter 4: The Ten Knowledge Areas</h2>
+        <p class="mb-6 text-text-dark">The PMP exam heavily tests your mastery of the ten knowledge areas, which are groups of related processes.</p>
+
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse my-6 text-text-dark text-sm">
+                <thead class="bg-blue-200">
+                    <tr>
+                        <th class="border border-medium-gray px-4 py-2 text-left font-bold text-dark-blue min-w-[150px]">Knowledge Area</th>
+                        <th class="border border-medium-gray px-4 py-2 text-left font-bold text-dark-blue">Key Focus</th>
+                        <th class="border border-medium-gray px-4 py-2 text-left font-bold text-dark-blue">Number of Processes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="border border-medium-gray px-4 py-2">Integration Management</td>
+                        <td class="border border-medium-gray px-4 py-2">Ensures processes are combined properly</td>
+                        <td class="border border-medium-gray px-4 py-2">7</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-medium-gray px-4 py-2">Scope Management</td>
+                        <td class="border border-medium-gray px-4 py-2">Defines and controls what is included</td>
+                        <td class="border border-medium-gray px-4 py-2">6</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-medium-gray px-4 py-2">Schedule Management</td>
+                        <td class="border border-medium-gray px-4 py-2">Manages timely completion</td>
+                        <td class="border border-medium-gray px-4 py-2">6</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-medium-gray px-4 py-2">Cost Management</td>
+                        <td class="border border-medium-gray px-4 py-2">Plans and controls budget</td>
+                        <td class="border border-medium-gray px-4 py-2">4</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-medium-gray px-4 py-2">Quality Management</td>
+                        <td class="border border-medium-gray px-4 py-2">Ensures deliverables meet requirements</td>
+                        <td class="border border-medium-gray px-4 py-2">3</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-medium-gray px-4 py-2">Resource Management</td>
+                        <td class="border border-medium-gray px-4 py-2">Manages human and physical resources</td>
+                        <td class="border border-medium-gray px-4 py-2">6</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-medium-gray px-4 py-2">Communications Management</td>
+                        <td class="border border-medium-gray px-4 py-2">Manages communication flow</td>
+                        <td class="border border-medium-gray px-4 py-2">3</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-medium-gray px-4 py-2">Risk Management</td>
+                        <td class="border border-medium-gray px-4 py-2">Identifies and manages risks</td>
+                        <td class="border border-medium-gray px-4 py-2">7</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-medium-gray px-4 py-2">Procurement Management</td>
+                        <td class="border border-medium-gray px-4 py-2">Acquires goods/services</td>
+                        <td class="border border-medium-gray px-4 py-2">3</td>
+                    </tr>
+                    <tr>
+                        <td class="border border-medium-gray px-4 py-2">Stakeholder Management</td>
+                        <td class="border border-medium-gray px-4 py-2">Engages stakeholders effectively</td>
+                        <td class="border border-medium-gray px-4 py-2">4</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 class="text-xl font-medium text-text-dark mb-4">Integration Management</h3>
+        <p class="mb-6 text-text-dark">Focuses on coordinating all project elements. Key processes include:</p>
+        <ul class="list-disc list-inside mb-6 space-y-2 text-text-dark">
+            <li>Develop Project Charter</li>
+            <li>Develop Project Management Plan</li>
+            <li>Direct and Manage Project Work</li>
+            <li>Monitor and Control Project Work</li>
+            <li>Perform Integrated Change Control</li>
+            <li>Close Project or Phase</li>
+        </ul>
+        <div class="infographic bg-light-blue p-6 rounded-lg shadow-md my-6 border border-medium-gray">
+            <h4 class="text-lg font-semibold text-dark-blue mb-3">Integration Process Flow</h4>
+            <pre class="font-mono text-sm bg-blue-100 p-4 rounded-md overflow-x-auto whitespace-pre-wrap text-text-dark">
+            1. Develop Project Charter
+            2. Develop Project Management Plan
+            3. Direct and Manage Project Work
+            4. Monitor and Control Project Work
+            5. Perform Integrated Change Control
+            6. Close Project or Phase
+            </pre>
+        </div>
+
+        <h3 class="text-xl font-medium text-text-dark mb-4">Scope Management</h3>
+        <p class="mb-6 text-text-dark">Focuses on defining the project scope and managing changes to it. The Work Breakdown Structure (WBS) is crucial here.</p>
+        <div class="wbs-example bg-light-gray p-4 rounded-md font-mono text-sm border border-medium-gray mt-4 overflow-x-auto">
+            <h4 class="text-lg font-semibold text-text-dark mb-3">WBS Hierarchy Example</h4>
+            <pre class="whitespace-pre-wrap text-text-dark">
+Project: Build Website
+  ├── Design
+  │     ├── Wireframes
+  │     └── Mockups
+  ├── Development
+  │     ├── Frontend
+  │     └── Backend
+  └── Testing
+        ├── Unit Testing
+        └── UAT
+            </pre>
+        </div>
+
+        <!-- Chapter 5 -->
+        <h2 id="tools-formulas" class="text-2xl font-semibold border-b-2 border-primary-blue pb-3 mb-6 mt-10">Chapter 5: Key Tools, Techniques, and Formulas</h2>
+        <p class="mb-6 text-text-dark">This chapter highlights important formulas and techniques used in project management.</p>
+        <h3 class="text-xl font-medium text-text-dark mb-4">Critical Path Method (CPM)</h3>
+        <p class="mb-6 text-text-dark">CPM is a project management technique used to determine the longest sequence of activities that must be completed on time for the project to be completed on time.</p>
+        <div class="code-block bg-light-gray p-4 rounded-md font-mono text-sm my-6 overflow-x-auto border border-medium-gray">
+            <h4 class="text-lg font-semibold text-text-dark mb-3">CPM Example (Simplified)</h4>
+            <pre class="whitespace-pre-wrap text-text-dark">
+Activity  | Duration | Predecessors
+----------|----------|---------------
+A         | 2 days   | -
+B         | 3 days   | A
+C         | 4 days   | A
+D         | 2 days   | B, C
+            </pre>
+            <p class="mt-4 text-text-dark"><b class="font-semibold text-dark-blue">Critical Path:</b> A -> C -> D (Total duration = 8 days)</p>
+        </div>
+
+        <h3 class="text-xl font-medium text-text-dark mb-4">Earned Value Management (EVM)</h3>
+        <p class="mb-6 text-text-dark">EVM is a technique used to measure project performance against the baseline.</p>
+        <div class="code-block bg-light-gray p-4 rounded-md font-mono text-sm my-6 overflow-x-auto border border-medium-gray">
+            <h4 class="text-lg font-semibold text-text-dark mb-3">Earned Value Management (EVM) Formulas</h4>
+            <pre class="whitespace-pre-wrap text-text-dark">
+PV = Planned Value
+EV = Earned Value
+AC = Actual Cost
+CV = Cost Variance = EV - AC
+SV = Schedule Variance = EV - PV
+CPI = Cost Performance Index = EV / AC
+SPI = Schedule Performance Index = EV / PV
+ETC = Estimate To Complete = (BAC - EV) / CPI
+EAC = Estimate At Completion = AC + ETC
+BAC = Budget at Completion
+            </pre>
+        </div>
+
+        <!-- Chapter 6 -->
+        <h2 id="agile-hybrid" class="text-2xl font-semibold border-b-2 border-primary-blue pb-3 mb-6 mt-10">Chapter 6: Agile and Hybrid Methodologies</h2>
+        <p class="mb-6 text-text-dark">This chapter covers Agile principles, frameworks, and how they are applied in project management.</p>
+
+        <h3 class="text-xl font-medium text-text-dark mb-4">Agile Manifesto and Principles</h3>
+        <p class="mb-6 text-text-dark">Agile focuses on iterative development and adapting to change.</p>
+        <div class="infographic bg-light-blue p-6 rounded-lg shadow-md my-6 border border-medium-gray">
+            <h4 class="text-lg font-semibold text-dark-blue mb-3">Agile Manifesto Values</h4>
+            <pre class="font-mono text-sm bg-blue-100 p-4 rounded-md overflow-x-auto whitespace-pre-wrap text-text-dark">
+Individuals and interactions over processes and tools
+Working software over comprehensive documentation
+Customer collaboration over contract negotiation
+Responding to change over following a plan
+            </pre>
+        </div>
+
+        <!-- Chapter 7: Exam Strategies and Best Practices -->
+        <h2 id="exam-strategies" class="text-2xl font-semibold border-b-2 border-primary-blue pb-3 mb-6 mt-10">Chapter 7: Exam Strategies and Best Practices</h2>
+
+        <!-- Time Management During Exam -->
+        <h3 class="text-xl font-medium text-text-dark mb-4">Time Management During Exam</h3>
+        <p class="mb-6 text-text-dark">Effective time management can help you finish the exam and have time for review.</p>
+
+        <!-- What is the best way to manage time during the exam? -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the best way to manage time during the exam?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Allocate 1 minute per question, mark difficult questions, and use the remaining time to review marked questions.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The 80-80-70 rule suggests dividing your exam time as follows:
+                - Spend <b class="font-bold">80 minutes on the first 60 questions</b>. These questions often set the tone for the rest of the exam. Avoid overthinking and trust your preparation.
+                - Dedicate <b class="font-bold">another 80 minutes to questions 61-120</b>. By now, you’re in the groove of answering questions, so maintain your pace.
+                - Allocate <b class="font-bold">70 minutes for questions 121-180</b>. This section requires speed and decisiveness as you’ll be approaching the end of the exam.
+                Additionally:
+                - Avoid the Panic Trap by taking deep breaths if feeling overwhelmed.
+                - Skip overly complex questions and return to them later if needed.
+                - Focus on maintaining a steady pace rather than striving for perfection.
+            </div>
+        </div>
+
+        <!-- Practical Tips to Prepare for Time Management -->
+        <h3 class="text-xl font-medium text-text-dark mb-4">Practical Tips to Prepare for Time Management</h3>
+        <ul class="list-disc list-inside mb-6 space-y-2 text-text-dark">
+            <li><b class="font-semibold text-dark-blue">Take Timed Mock Tests:</b> Gururo’s PMP Simulator provides a real exam-like experience to refine your timing.</li>
+            <li><b class="font-semibold text-dark-blue">Develop a Study Plan:</b> Access Gururo’s free PMP application, simulator, and study plan to organize your preparation effectively.</li>
+            <li><b class="font-semibold text-dark-blue">Focus on Weak Areas:</b> Identify question types that consume the most time and work on improving your speed.</li>
+            <li><b class="font-semibold text-dark-blue">Practice Mental Resilience:</b> Use relaxation techniques such as deep breathing or visualization to stay calm under pressure.</li>
+        </ul>
+
+        <!-- Chapter 8: Sample Questions and Detailed Answers -->
+        <h2 id="sample-questions" class="text-2xl font-semibold border-b-2 border-primary-blue pb-3 mb-6 mt-10">Chapter 8: Sample Questions and Detailed Answers</h2>
+
+        <!-- Sample Question 1 -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">During which process group is the project charter developed?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Initiating
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The project charter is developed during the Initiating process group to formally authorize a project. This document gives the project manager the authority to apply organizational resources to project activities.
+            </div>
+        </div>
+
+        <!-- Sample Question 2 -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which of the following is NOT a component of the project management plan?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                D. Stakeholder Register
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The correct answer is D. The Stakeholder Register is a supporting document and not a component of the project management plan. The project management plan includes various subsidiary plans like scope, schedule, and cost management plans.
+            </div>
+        </div>
+
+        <!-- Sample Question 3 -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the purpose of the Work Breakdown Structure (WBS)?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                A. To define project tasks and activities in a hierarchical structure.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The WBS is a deliverable-oriented decomposition of a project into smaller components. It helps in organizing and defining the total scope of the project.
+            </div>
+        </div>
+
+        <!-- Sample Question 4 -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">A project manager is calculating the Earned Value Management (EVM) metrics. The project has a planned value (PV) of $50,000, an earned value (EV) of $40,000, and an actual cost (AC) of $45,000. What is the Cost Performance Index (CPI)?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                CPI = EV / AC = $40,000 / $45,000 &approx; 0.89
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                CPI indicates that the project is over budget because it shows that for every dollar earned, it costs approximately 1.11 dollars.
+            </div>
+        </div>
+
+        <!-- Sample Question 5 -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What does the term 'critical chain' refer to in project management?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                The critical chain is the sequence of tasks that determines the minimum duration required to complete a project.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                It helps in identifying bottlenecks and ensuring that resources are allocated efficiently.
+            </div>
+        </div>
+
+        <!-- Sample Question 6 -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">How do you manage your time during the PMP exam according to Simplilearn?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Each question deserves approximately 1.2 minutes of your time. Track your progress to maintain a steady pace throughout the exam.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                This method helps in managing time effectively by allocating equal time for each question and maintaining a buffer for difficult ones.
+            </div>
+        </div>
+
+        <!-- Sample Question 7 -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What does 'mark for review' mean in the context of PMP exam strategy?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Marking questions for review allows you to bookmark them and answer them at the end of the exam if needed.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                This technique helps in managing time by focusing on easier questions first and saving harder ones for later.
+            </div>
+        </div>
+
+        <!-- Sample Question 8 -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">How long should each section take according to Gururo's 80-80-70 rule?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                The first section (questions 1-60) should take approximately 80 minutes.
+                The second section (questions 61-120) should take another 80 minutes.
+                The final section (questions 121-180) should take about 70 minutes.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                This rule helps in dividing the exam into manageable chunks based on question difficulty and complexity.
+            </div>
+        </div>
+
+        <!-- Sample Question 9 -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What happens if you submit a set of questions during the PMP exam?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Once submitted, you cannot go back to those questions again.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                This means that if you mark questions for review in one set, you'll need to answer them when you come back from your break or later in another set.
+            </div>
+        </div>
+
+        <!-- Sample Question 10 -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">How does tracking progress help during the PMP exam?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Tracking progress helps by giving you an idea of how much time per question you can allow yourself for the rest of your exam.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                It also distracts from worrying about passing or failing by focusing on maintaining a steady pace throughout.
+            </div>
+        </div>
+
+        <!-- Sample Question 11 -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What are some practical tips for managing mental resilience during exams?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Practical tips include using relaxation techniques such as deep breathing or visualization.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                These techniques help in staying calm under pressure and maintaining focus throughout the exam.
+            </div>
+        </div>
+
+        <!-- Sample Question 12 -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">How does identifying weak areas help in preparing for time management?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Identifying weak areas helps by focusing on improving speed in those areas where you consume most time.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                It allows for targeted practice to optimize your performance during the actual exam, ensuring you don't get stuck on challenging question types.
+            </div>
+        </div>
+
+        <!-- Additional Sample Questions (25 new questions added for a total of 37) -->
+
+        <!-- Question 13 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">A project manager is developing the project schedule. Which of the following is NOT a common tool or technique used in Schedule Management?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Gantt Charts</li>
+                    <li>B. Critical Path Method (CPM)</li>
+                    <li>C. Work Breakdown Structure (WBS)</li>
+                    <li>D. Resource Leveling</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. Work Breakdown Structure (WBS)
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The WBS is a key output of Scope Management, used to decompose project deliverables into smaller, manageable components. While it influences the schedule, it is not a direct tool/technique for Schedule Management itself. Gantt Charts, CPM, and Resource Leveling are all commonly used in Schedule Management.
+            </div>
+        </div>
+
+        <!-- Question 14 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">During which process group would a project manager obtain formal acceptance of the project deliverables?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Closing
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Formal acceptance of deliverables is a crucial activity in the Closing Process Group, signaling the completion of the project or phase.
+            </div>
+        </div>
+
+        <!-- Question 15 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">A project team is facing scope creep. Which document would be most helpful in controlling this?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Project Charter</li>
+                    <li>B. Stakeholder Register</li>
+                    <li>C. Scope Baseline</li>
+                    <li>D. Risk Register</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. Scope Baseline
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The Scope Baseline, which includes the scope statement, WBS, and WBS dictionary, serves as the approved version of the project scope. Any deviation from it indicates scope creep and requires formal change control.
+            </div>
+        </div>
+
+        <!-- Question 16 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the primary output of the "Plan Risk Management" process?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Risk Management Plan
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The Plan Risk Management process defines how to conduct risk management activities for a project. Its primary output is the Risk Management Plan, which details how risks will be identified, analyzed, responded to, and controlled.
+            </div>
+        </div>
+
+        <!-- Question 17 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">In an Agile project, who is primarily responsible for prioritizing the backlog?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Scrum Master</li>
+                    <li>B. Development Team</li>
+                    <li>C. Product Owner</li>
+                    <li>D. Project Sponsor</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. Product Owner
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The Product Owner is responsible for maximizing the value of the product resulting from the work of the Development Team. This includes managing and prioritizing the Product Backlog.
+            </div>
+        </div>
+
+        <!-- Question 18 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which of the following is a common tool for visualizing project progress in Agile, showing work remaining versus time?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Burndown Chart
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                A Burndown Chart is an essential Agile tool that visually represents the remaining work in a sprint or release against the time remaining.
+            </div>
+        </div>
+
+        <!-- Question 19 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">When a project has a CPI of 1.2 and an SPI of 0.9, what does this indicate about the project's performance?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Under budget, ahead of schedule</li>
+                    <li>B. Over budget, behind schedule</li>
+                    <li>C. Under budget, behind schedule</li>
+                    <li>D. Over budget, ahead of schedule</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. Under budget, behind schedule
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                A CPI > 1 indicates the project is under budget (cost-efficient). An SPI < 1 indicates the project is behind schedule (less work has been completed than planned).
+            </div>
+        </div>
+
+        <!-- Question 20 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the purpose of a change request in project management?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                A formal proposal to modify any document, deliverable, or baseline.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Change requests are an integral part of integrated change control and are used to manage any modifications to the project.
+            </div>
+        </div>
+
+        <!-- Question 21 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which knowledge area deals with optimizing the use of project resources, including team members, equipment, and materials?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Resource Management
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Project Resource Management includes the processes to identify, acquire, and manage the resources needed for the successful completion of the project.
+            </div>
+        </div>
+
+        <!-- Question 22 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is a key benefit of performing a "lessons learned" session at the end of a project?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                To capture knowledge and insights for future projects and improve organizational processes.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Lessons learned are invaluable inputs to organizational process assets, helping the organization continuously improve its project management practices.
+            </div>
+        </div>
+
+        <!-- Question 23 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">A stakeholder has a high interest and high power. What engagement strategy should the project manager use?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Keep Informed</li>
+                    <li>B. Keep Satisfied</li>
+                    <li>C. Manage Closely</li>
+                    <li>D. Monitor</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. Manage Closely
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                For stakeholders with high power and high interest, the strategy is to manage them closely, ensuring their continuous engagement and satisfaction. This is crucial for project success.
+            </div>
+        </div>
+
+        <!-- Question 24 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the primary difference between a project and an operation?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Projects are temporary endeavors to create a unique product/service/result, while operations are ongoing, repetitive functions.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                This fundamental distinction highlights the temporary and unique nature of projects versus the continuous and standardized nature of operations.
+            </div>
+        </div>
+
+        <!-- Question 25 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which risk response strategy involves eliminating the threat entirely?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Mitigate</li>
+                    <li>B. Accept</li>
+                    <li>C. Avoid</li>
+                    <li>D. Transfer</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. Avoid
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Risk avoidance means changing the project plan to eliminate the threat entirely or to protect the project objectives from the risk's impact.
+            </div>
+        </div>
+
+        <!-- Question 26 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the "Cone of Uncertainty" in project management?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                A concept that illustrates how the accuracy of project estimates improves over time as more information becomes known.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                At the beginning of a project, the level of uncertainty is high, and estimates are broad. As the project progresses, uncertainty decreases, and estimates become more precise.
+            </div>
+        </div>
+
+        <!-- Question 27 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which of the following is typically developed in the Planning Process Group?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Project Charter</li>
+                    <li>B. Final Report</li>
+                    <li>C. Project Management Plan</li>
+                    <li>D. Accepted Deliverables</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. Project Management Plan
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The Project Management Plan is the comprehensive document developed during Planning that details how the project will be executed, monitored, controlled, and closed.
+            </div>
+        </div>
+
+        <!-- Question 28 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the primary purpose of a Project Kick-off Meeting?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                To formally introduce the project team, stakeholders, and align everyone on project goals and expectations.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The kick-off meeting marks the official start of the project and is vital for building team cohesion and shared understanding.
+            </div>
+        </div>
+
+        <!-- Question 29 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">A project manager is performing a Pareto chart analysis. Which knowledge area is this tool primarily associated with?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Cost Management</li>
+                    <li>B. Quality Management</li>
+                    <li>C. Risk Management</li>
+                    <li>D. Procurement Management</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                B. Quality Management
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                A Pareto chart is a specific type of bar chart, ordered by frequency, that shows which factors are the biggest contributors to a problem. It's a key tool in quality control for identifying the "vital few" causes that create the "trivial many" problems (80/20 rule).
+            </div>
+        </div>
+
+        <!-- Question 30 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the role of a Scrum Master in an Agile project?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Facilitates Scrum events, coaches the team, and removes impediments.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The Scrum Master is a servant-leader who helps the Scrum Team understand Scrum theory, practices, rules, and values, and ensures the team adheres to Scrum processes.
+            </div>
+        </div>
+
+        <!-- Question 31 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">If your Schedule Performance Index (SPI) is 1.15, what does this mean for your project?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. The project is over budget.</li>
+                    <li>B. The project is behind schedule.</li>
+                    <li>C. The project is ahead of schedule.</li>
+                    <li>D. The project is on budget.</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. The project is ahead of schedule.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                An SPI greater than 1.0 indicates that the project is ahead of the planned schedule. You are earning value faster than planned.
+            </div>
+        </div>
+
+        <!-- Question 32 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which document formally authorizes the existence of a project and provides the project manager with the authority to apply organizational resources to project activities?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Project Charter
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The Project Charter is a key output of the Initiating Process Group and is essential for formalizing the project and empowering the project manager.
+            </div>
+        </div>
+
+        <!-- Question 33 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">A project manager is performing a "Make-or-Buy Analysis." This is typically associated with which knowledge area?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Resource Management</li>
+                    <li>B. Cost Management</li>
+                    <li>C. Procurement Management</li>
+                    <li>D. Scope Management</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. Procurement Management
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Make-or-Buy Analysis is a technique used in Plan Procurement Management to determine whether particular goods or services needed for a project should be produced internally or purchased from outside the organization.
+            </div>
+        </div>
+
+        <!-- Question 34 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the "Triple Constraint" of project management?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Scope, Time, and Cost
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The Triple Constraint (or Iron Triangle) represents the three interdependent factors that influence the quality of a project: scope (or quality), time (schedule), and cost (budget). A change in one typically impacts the others.
+            </div>
+        </div>
+
+        <!-- Question 35 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">In a matrix organization, who typically holds more power: the Functional Manager or the Project Manager?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Functional Manager</li>
+                    <li>B. Project Manager</li>
+                    <li>C. Both have equal power</li>
+                    <li>D. It depends on the type of matrix organization.</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                D. It depends on the type of matrix organization.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                In a strong matrix, the project manager has more power. In a balanced matrix, power is shared equally. In a weak matrix, the functional manager has more power.
+            </div>
+        </div>
+
+        <!-- Question 36 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the formula for Estimate At Completion (EAC) when the original budget is no longer valid, and you need a new estimate from scratch?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                EAC = AC + Bottom-up ETC
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                This formula is used when past performance indicators suggest that the original estimate is flawed, and a new, detailed estimate for the remaining work (Bottom-up ETC) is required.
+            </div>
+        </div>
+
+        <!-- Question 37 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which type of contract is most beneficial to the buyer, as the seller bears most of the risk?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Cost-Plus-Fixed-Fee (CPFF)</li>
+                    <li>B. Fixed-Price (FP)</li>
+                    <li>C. Time and Material (T&M)</li>
+                    <li>D. Cost-Plus-Incentive-Fee (CPIF)</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                B. Fixed-Price (FP)
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                In a Fixed-Price contract, the seller agrees to provide the specified product or service at a fixed total price, regardless of the cost incurred. This puts the risk of cost overruns squarely on the seller.
+            </div>
+        </div>
+
+        <!-- Question 38 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the primary purpose of conducting a "Perform Quality Control" process?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                To monitor and record results of executing the quality activities to assess performance and recommend necessary changes.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Quality Control focuses on identifying issues with deliverables and processes, ensuring they meet the required quality standards.
+            </div>
+        </div>
+
+        <!-- Question 39 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which organizational structure categorizes projects by department, where project managers have little authority?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Functional</li>
+                    <li>B. Projectized</li>
+                    <li>C. Matrix</li>
+                    <li>D. Balanced</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                A. Functional
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                In a functional organization, resources are grouped by specialty (e.g., engineering, marketing). Project managers typically have very limited authority, and teams report directly to their functional managers.
+            </div>
+        </div>
+
+        <!-- Question 40 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the primary purpose of a "Project Management Information System" (PMIS)?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                To collect, integrate, and disseminate the outputs of all project management processes.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                A PMIS is an information system consisting of the tools and techniques used to gather, integrate, and disseminate the outputs of project management processes. It can include automated tools, software, and manual systems.
+            </div>
+        </div>
+
+        <!-- Question 41 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">During which process do project managers acquire team members, facilities, equipment, materials, and other resources necessary to complete project work?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Estimate Resources</li>
+                    <li>B. Acquire Resources</li>
+                    <li>C. Develop Team</li>
+                    <li>D. Control Resources</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                B. Acquire Resources
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The Acquire Resources process is part of the Executing Process Group within Resource Management, focusing on obtaining the resources needed for the project.
+            </div>
+        </div>
+
+        <!-- Question 42 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the "Gold Plating" in project management?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Adding extra features or functionality to the project deliverable that were not part of the original scope.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Gold plating is generally discouraged as it can lead to cost overruns, schedule delays, and may not align with customer needs. It's about doing more than what was asked.
+            </div>
+        </div>
+
+        <!-- Question 43 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which type of chart is best for showing dependencies between project activities and identifying the critical path?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Bar Chart (Gantt Chart)</li>
+                    <li>B. Histogram</li>
+                    <li>C. Network Diagram</li>
+                    <li>D. Run Chart</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. Network Diagram
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Project network diagrams visually represent the sequence of project activities and their dependencies, which is crucial for determining the critical path.
+            </div>
+        </div>
+
+        <!-- Question 44 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the purpose of "Validate Scope" in project management?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                To formalize acceptance of the completed project deliverables.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Validate Scope is the process of formalizing acceptance of the completed project deliverables. It involves reviewing deliverables with the customer or sponsor to ensure they are acceptable.
+            </div>
+        </div>
+
+        <!-- Question 45 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">In Agile, what is a "Daily Scrum"?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                A 15-minute time-boxed event for the Development Team to synchronize activities and create a plan for the next 24 hours.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The Daily Scrum is a key meeting in Scrum, fostering communication and allowing the team to assess progress towards the Sprint Goal.
+            </div>
+        </div>
+
+        <!-- Question 46 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which knowledge area primarily focuses on how project information is generated, distributed, stored, and ultimately disposed of?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Stakeholder Management</li>
+                    <li>B. Integration Management</li>
+                    <li>C. Communications Management</li>
+                    <li>D. Scope Management</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. Communications Management
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Project Communications Management focuses on the processes required to ensure timely and appropriate planning, collection, creation, distribution, storage, retrieval, management, control, and ultimate disposition of project information.
+            </div>
+        </div>
+
+        <!-- Question 47 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">A project manager is performing "Reserve Analysis." This is a tool/technique used in which process?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Estimate Costs (and Estimate Activity Durations)
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Reserve Analysis involves adding contingency reserves (for known-unknowns) and management reserves (for unknown-unknowns) to estimates to account for cost and time uncertainty. It's used in both Estimate Costs and Estimate Activity Durations.
+            </div>
+        </div>
+
+        <!-- Question 48 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the primary output of the "Plan Quality Management" process?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Quality Control Measurements</li>
+                    <li>B. Quality Metrics</li>
+                    <li>C. Quality Management Plan</li>
+                    <li>D. Verified Deliverables</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. Quality Management Plan
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The Quality Management Plan is a component of the project management plan that describes how applicable policies, procedures, and guidelines will be implemented to achieve the quality objectives.
+            </div>
+        </div>
+
+        <!-- Question 49 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which of the following describes a "Functional Organization"?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                An organizational structure where personnel are grouped by department or functional area, and project managers have limited authority.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                In a functional organization, resources are typically owned and controlled by functional managers, leading to weak project manager authority.
+            </div>
+        </div>
+
+        <!-- Question 50 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the main goal of "Develop Project Team" process?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                To improve competencies, team interaction, and the overall team environment to enhance project performance.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                This process focuses on developing the individual and collective skills of the project team members, leading to better collaboration and project outcomes.
+            </div>
+        </div>
+
+        <!-- Question 51 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is a "Contingency Reserve"?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Time or money allocated in the schedule or cost baseline for identified risks (known-unknowns).
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Contingency reserves are for risks that have been identified and planned for, whereas management reserves are for unknown-unknowns.
+            </div>
+        </div>
+
+        <!-- Question 52 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which process group involves defining a new project or a new phase of an existing project by obtaining authorization to start the project or phase?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Planning</li>
+                    <li>B. Executing</li>
+                    <li>C. Initiating</li>
+                    <li>D. Closing</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. Initiating
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The Initiating Process Group focuses on authorizing the project or its next phase and defining initial stakeholders.
+            </div>
+        </div>
+
+        <!-- Question 53 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is "Crashing" in schedule compression techniques?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Adding resources to shorten the project duration for the least incremental cost.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Crashing focuses on activities on the critical path, aiming to reduce their duration by adding more resources, always considering the cost-effectiveness.
+            </div>
+        </div>
+
+        <!-- Question 54 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which of the following is an Enterprise Environmental Factor (EEF)?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Lessons Learned Repository</li>
+                    <li>B. Organizational Culture</li>
+                    <li>C. Project Management Plan</li>
+                    <li>D. WBS Template</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                B. Organizational Culture
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                EEFs are conditions, not under the control of the project team, that influence, constrain, or direct the project. Organizational culture is an internal EEF. OPAs (Organizational Process Assets) include lessons learned and WBS templates.
+            </div>
+        </div>
+
+        <!-- Question 55 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the "Definition of Done" in Scrum?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                A shared understanding of what it means for work to be complete, adhering to quality standards.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The Definition of Done ensures transparency and provides a common reference point for the Development Team regarding the quality and completeness of Increment features.
+            </div>
+        </div>
+
+        <!-- Question 56 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">If your Cost Performance Index (CPI) is 0.85, what does this indicate about your project?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. The project is under budget.</li>
+                    <li>B. The project is over budget.</li>
+                    <li>C. The project is on budget.</li>
+                    <li>D. The project is ahead of schedule.</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                B. The project is over budget.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                A CPI less than 1.0 indicates that the project is over budget. For every dollar earned, you are spending more than a dollar.
+            </div>
+        </div>
+
+        <!-- Question 57 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the primary output of the "Plan Communications Management" process?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Communications Management Plan
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                This plan details how, when, and by whom project information will be administered and distributed.
+            </div>
+        </div>
+
+        <!-- Question 58 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">When should a project manager use a "Bottom-Up Estimating" technique?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. When there is limited detailed information.</li>
+                    <li>B. When a high-level estimate is sufficient.</li>
+                    <li>C. When high accuracy is required and detailed work is known.</li>
+                    <li>D. For quick, early-stage estimates.</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. When high accuracy is required and detailed work is known.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Bottom-Up Estimating involves estimating individual work packages or activities with a high degree of detail and then aggregating these estimates to arrive at a total project estimate. It's time-consuming but highly accurate.
+            </div>
+        </div>
+
+        <!-- Question 59 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is "Forecasting" in project management?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Estimating future project conditions and events based on information and knowledge available at the time of the forecast.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Forecasting involves predicting future project performance based on current performance and trends, often using EVM metrics (e.g., EAC).
+            </div>
+        </div>
+
+        <!-- Question 60 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which type of communication is most effective for complex or sensitive information?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Email</li>
+                    <li>B. Formal written report</li>
+                    <li>C. Face-to-face meeting</li>
+                    <li>D. Group chat</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. Face-to-face meeting
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Face-to-face communication offers the highest bandwidth, allowing for immediate feedback, observation of non-verbal cues, and clarification, which is critical for complex or sensitive discussions.
+            </div>
+        </div>
+
+        <!-- Question 61 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the objective of "Qualitative Risk Analysis"?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                To prioritize individual project risks for further analysis or action by assessing their probability of occurrence and impact.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Qualitative risk analysis helps in focusing resources on the most critical risks, often using tools like probability and impact matrix.
+            </div>
+        </div>
+
+        <!-- Question 62 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is a "Lag" in project scheduling?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. The amount of time an activity can be delayed without delaying the project finish date.</li>
+                    <li>B. The amount of time an activity can be accelerated.</li>
+                    <li>C. A mandatory waiting period between activities.</li>
+                    <li>D. The time an activity takes to complete.</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. A mandatory waiting period between activities.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                A lag is a modification of a logical relationship that directs a delay in the successor activity. For example, "start-to-finish with a 5-day lag" means the successor activity can finish 5 days after the predecessor starts.
+            </div>
+        </div>
+
+        <!-- Question 63 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which is a tool or technique for "Control Quality"?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Statistical Sampling
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Statistical sampling involves choosing a subset of a population for inspection. It's often used when inspecting every item is impractical, and it's a key technique in Quality Control. Other tools include control charts, inspections, and flowcharts.
+            </div>
+        </div>
+
+        <!-- Question 64 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the difference between validation and verification?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Validation is "Are we building the right product?", while verification is "Are we building the product right?".
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Verification (Control Quality) ensures the product meets specifications. Validation (Validate Scope) ensures the product meets user/stakeholder needs.
+            </div>
+        </div>
+
+        <!-- Question 65 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the purpose of a "Sprint Review" in Scrum?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. To plan the next Sprint.</li>
+                    <li>B. To inspect the Increment and adapt the Product Backlog if needed.</li>
+                    <li>C. To inspect how the last Sprint went regarding individuals, interactions, processes, tools, and their Definition of Done.</li>
+                    <li>D. To assign tasks to team members.</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                B. To inspect the Increment and adapt the Product Backlog if needed.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The Sprint Review is held at the end of the Sprint to inspect the Increment and adapt the Product Backlog if needed. It's an informal meeting, not a status meeting.
+            </div>
+        </div>
+
+        <!-- Question 66 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which of the following is typically NOT included in the Project Charter?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Project purpose or justification</li>
+                    <li>B. Detailed WBS</li>
+                    <li>C. High-level requirements</li>
+                    <li>D. Project Manager's assigned authority</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                B. Detailed WBS
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The Project Charter is a high-level document. The detailed WBS is developed during the Planning Process Group as part of Scope Management.
+            </div>
+        </div>
+
+        <!-- Question 67 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the purpose of a "Bidder Conference"?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                To clarify procurement documents and answer questions from potential sellers.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Bidder conferences (also called pre-bid conferences or contractor conferences) are meetings between the buyer and prospective sellers prior to submittal of a bid or proposal. They ensure all prospective sellers have a clear and common understanding of the procurement.
+            </div>
+        </div>
+
+        <!-- Question 68 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">A project manager is facing a risk with a high probability and high impact. Which risk response strategy would be most appropriate?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Accept</li>
+                    <li>B. Exploit</li>
+                    <li>C. Avoid or Mitigate</li>
+                    <li>D. Share</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. Avoid or Mitigate
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                For high-probability, high-impact threats, the project manager should actively work to avoid the risk or mitigate its impact and/or probability to an an acceptable level.
+            </div>
+        </div>
+
+        <!-- Question 69 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is "Analogous Estimating"?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                A top-down estimating technique that uses parameters from a previous, similar project, such as duration, budget, and size, as the basis for estimating the current project.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Analogous estimating is less accurate but quick, often used in early project phases when detailed information is limited.
+            </div>
+        </div>
+
+        <!-- Question 70 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which of the following is an input to the "Develop Project Management Plan" process?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Deliverables</li>
+                    <li>B. Approved Change Requests</li>
+                    <li>C. Project Charter</li>
+                    <li>D. Work Performance Information</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. Project Charter
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The Project Charter provides the initial project information and authorization needed to begin the detailed planning activities, leading to the Project Management Plan.
+            </div>
+        </div>
+
+        <!-- Question 71 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the main purpose of "Project Baselines" (scope, schedule, cost)?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                To establish a reference point against which project performance is measured.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Baselines are fixed, approved versions of the project plan that serve as a comparison for actual performance. Any changes to baselines require formal change control.
+            </div>
+        </div>
+
+        <!-- Question 72 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which of the following describes a "Projectized Organization"?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Project managers have little authority.</li>
+                    <li>B. Team members report to both a functional and project manager.</li>
+                    <li>C. Team members are typically co-located and report directly to the project manager.</li>
+                    <li>D. Power is balanced between functional and project managers.</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. Team members are typically co-located and report directly to the project manager.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                In a projectized organization, the project manager has high authority, and resources are often dedicated to the project.
+            </div>
+        </div>
+
+        <!-- Question 73 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the "Rolling Wave Planning" technique?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                An iterative planning technique where the work to be accomplished in the near term is planned in detail, while the work further in the future is planned at a higher level.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Rolling Wave Planning is especially useful in Agile or projects with high uncertainty, allowing for progressive elaboration.
+            </div>
+        </div>
+
+        <!-- Question 74 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is a "Control Chart" used for in Quality Management?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. To show the sequence of activities.</li>
+                    <li>B. To track stakeholder engagement levels.</li>
+                    <li>C. To determine if a process is in or out of statistical control.</li>
+                    <li>D. To prioritize risks.</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. To determine if a process is in or out of statistical control.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Control charts graphically display process data over time, with upper and lower control limits. Points outside these limits or non-random patterns indicate that the process is out of control.
+            </div>
+        </div>
+
+        <!-- Question 75 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is a "Risk Register"?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                A document in which the results of risk analysis and risk response planning are recorded.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The Risk Register is a key output of several risk management processes, serving as a comprehensive list of identified risks, their potential impacts, and planned responses.
+            </div>
+        </div>
+
+        <!-- Question 76 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">In Agile, what is a "Sprint Backlog"?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. A list of all desired features for the product.</li>
+                    <li>B. The set of Product Backlog items selected for the Sprint, plus the plan for delivering them.</li>
+                    <li>C. A list of impediments faced by the team.</li>
+                    <li>D. A chart showing work remaining over time.</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                B. The set of Product Backlog items selected for the Sprint, plus the plan for delivering them.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The Sprint Backlog is created during Sprint Planning and represents the Development Team's forecast of what functionality will be in the next Increment and the work needed to deliver that functionality.
+            </div>
+        </div>
+
+        <!-- Question 77 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which of the following is a common input to most project management processes?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Project Management Plan</li>
+                    <li>B. Deliverables</li>
+                    <li>C. Change Requests</li>
+                    <li>D. Accepted Deliverables</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                A. Project Management Plan
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The Project Management Plan is foundational. It guides all subsequent planning, executing, monitoring, controlling, and closing processes.
+            </div>
+        </div>
+
+        <!-- Question 78 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the purpose of a "Sprint Retrospective" in Scrum?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                To plan ways to increase quality and effectiveness by inspecting how the last Sprint went and identifying improvements.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The Sprint Retrospective is an opportunity for the Scrum Team to inspect itself and create a plan for improvements to be enacted during the next Sprint.
+            </div>
+        </div>
+
+        <!-- Question 79 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the "Rule of Seven" in control charts?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                If seven data points in a row are all above or all below the mean, or are all increasing or all decreasing, it indicates a non-random pattern and the process is out of control.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Even if all points are within the control limits, a "run of seven" indicates a systematic cause is affecting the process, warranting investigation.
+            </div>
+        </div>
+
+        <!-- Question 80 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">A project manager is receiving bids from several vendors. In which process of Procurement Management would this occur?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Plan Procurement Management</li>
+                    <li>B. Conduct Procurements</li>
+                    <li>C. Control Procurements</li>
+                    <li>D. Close Procurements</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                B. Conduct Procurements
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Conduct Procurements is the process of obtaining seller responses, selecting a seller, and awarding a contract.
+            </div>
+        </div>
+
+        <!-- Question 81 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is a "Project Sponsor"?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                The person or group who provides resources and support for the project and is accountable for enabling success.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The project sponsor plays a critical role in project initiation and ongoing support, acting as a high-level advocate for the project.
+            </div>
+        </div>
+
+        <!-- Question 82 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the primary characteristic of "Parametric Estimating"?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Expert judgment based on past experience.</li>
+                    <li>B. Uses a statistical relationship between historical data and other variables to calculate an estimate.</li>
+                    <li>C. Involves breaking down work into smaller components and estimating each.</li>
+                    <li>D. Estimates are provided by external vendors.</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                B. Uses a statistical relationship between historical data and other variables to calculate an estimate.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Parametric estimating uses a unit rate (e.g., cost per line of code, cost per square foot) multiplied by the quantity of work to be performed. It is more accurate than analogous estimating.
+            </div>
+        </div>
+
+        <!-- Question 83 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which of the following is an example of a "Preventive Action"?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Reworking a defective component.</li>
+                    <li>B. Adjusting project schedule to avoid a potential delay.</li>
+                    <li>C. Repairing a bug in software.</li>
+                    <li>D. Correcting a budget overrun after it occurred.</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                B. Adjusting project schedule to avoid a potential delay.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Preventive actions are taken to reduce the probability of a negative impact from a risk event. Corrective actions fix issues after they occur.
+            </div>
+        </div>
+
+        <!-- Question 84 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the primary focus of "Manage Communications" process?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                To ensure timely and appropriate collection, creation, distribution, storage, retrieval, management, control, and disposition of project information.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                This process focuses on the actual execution of the communications plan, ensuring information flows effectively to all stakeholders.
+            </div>
+        </div>
+
+        <!-- Question 85 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the formula for the Three-Point Estimate (Triangular Distribution)?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                E = (O + M + P) / 3
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Where O = Optimistic, M = Most Likely, and P = Pessimistic. This formula is often used for activity duration or cost estimation when there is uncertainty.
+            </div>
+        </div>
+
+        <!-- Question 86 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is a "Product Backlog" in Scrum?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. A detailed plan for a single Sprint.</li>
+                    <li>B. An ordered list of everything that might be needed in the product.</li>
+                    <li>C. A list of completed features.</li>
+                    <li>D. A document defining the project scope baseline.</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                B. An ordered list of everything that might be needed in the product.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The Product Backlog is dynamic, ordered by the Product Owner, and serves as the single source of requirements for any changes to be made to the product.
+            </div>
+        </div>
+
+        <!-- Question 87 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which of the following is NOT a characteristic of Agile methodologies?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Iterative and incremental development.</li>
+                    <li>B. High focus on detailed upfront planning.</li>
+                    <li>C. Customer collaboration.</li>
+                    <li>D. Responding to change.</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                B. High focus on detailed upfront planning.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Agile embraces change and prefers working software over extensive documentation and detailed upfront planning.
+            </div>
+        </div>
+
+        <!-- Question 88 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the "PMBOK Guide"?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                A guide to the Project Management Body of Knowledge, a globally recognized standard for project management.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The PMBOK Guide provides general guidelines, not a strict methodology, for managing projects.
+            </div>
+        </div>
+
+        <!-- Question 89 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which process involves monitoring the status of the project and product scope and managing changes to the scope baseline?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Define Scope</li>
+                    <li>B. Validate Scope</li>
+                    <li>C. Control Scope</li>
+                    <li>D. Create WBS</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. Control Scope
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Control Scope ensures that all changes to the project scope are processed through the Perform Integrated Change Control process and that only approved changes are implemented.
+            </div>
+        </div>
+
+        <!-- Question 90 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is "Risk Transference"?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Shifting the impact of a threat along with ownership of the response to a third party.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Common examples include insurance, performance bonds, warranties, and outsourcing the work.
+            </div>
+        </div>
+
+        <!-- Question 91 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which process group sets the stage for the project, outlining its purpose and initial objectives?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Planning</li>
+                    <li>B. Executing</li>
+                    <li>C. Initiating</li>
+                    <li>D. Monitoring & Controlling</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. Initiating
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                The Initiating process group is where the project is formally authorized and the overall scope and initial stakeholders are identified.
+            </div>
+        </div>
+
+        <!-- Question 92 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the primary difference between a Program and a Portfolio?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                A Program is a group of related projects managed to gain benefits not available from managing them individually, while a Portfolio is a collection of projects, programs, and operations aligned with strategic objectives.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Programs are about coordinated management for synergistic benefits, whereas portfolios are about achieving strategic business goals through a collection of diverse initiatives.
+            </div>
+        </div>
+
+        <!-- Question 93 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which earned value management (EVM) value represents the budget of work that has been completed to date?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Planned Value (PV)</li>
+                    <li>B. Actual Cost (AC)</li>
+                    <li>C. Earned Value (EV)</li>
+                    <li>D. Budget at Completion (BAC)</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. Earned Value (EV)
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Earned Value (EV) is the value of the work performed, expressed in terms of the budget assigned to that work.
+            </div>
+        </div>
+
+        <!-- Question 94 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the "Theory of Constraints"?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                A management paradigm that states that any "system" (e.g., a project) is always limited by a small number of constraints, and to improve the system, the constraint must be identified and managed.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                This theory is closely related to the Critical Chain Method, which focuses on managing the most significant constraints in a project.
+            </div>
+        </div>
+
+        <!-- Question 95 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which of the following is an output of "Control Quality"?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Quality Management Plan</li>
+                    <li>B. Quality Metrics</li>
+                    <li>C. Verified Deliverables</li>
+                    <li>D. Process Analysis</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. Verified Deliverables
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Verified Deliverables are an output of Control Quality, meaning the deliverables have been inspected and confirmed to meet the required quality standards. These then become inputs to Validate Scope.
+            </div>
+        </div>
+
+        <!-- Question 96 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is the purpose of a "Stakeholder Engagement Plan"?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                To define the strategies and actions required to promote productive involvement of stakeholders in project decision making and execution.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                This plan is crucial for managing stakeholder expectations and ensuring their positive contribution to the project.
+            </div>
+        </div>
+
+        <!-- Question 97 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">In project risk management, what is a "Risk Appetite"?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. The desired level of risk exposure.</li>
+                    <li>B. The total amount of risk a project can tolerate.</li>
+                    <li>C. The degree of uncertainty an organization or individual is willing to accept in anticipation of a reward.</li>
+                    <li>D. The process of identifying new risks.</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. The degree of uncertainty an organization or individual is willing to accept in anticipation of a reward.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Risk appetite influences the risk management plan and the selection of risk response strategies.
+            </div>
+        </div>
+
+        <!-- Question 98 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">What is "Expert Judgment" in project management?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                Judgment provided based on expertise in an application area, discipline, industry, or knowledge area acquired from experience, training, and certification.
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Expert judgment is a widely used tool and technique across almost all project management processes, leveraging the knowledge of experienced individuals.
+            </div>
+        </div>
+
+        <!-- Question 99 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">Which of the following is typically the LAST process performed in the project life cycle?</h4>
+                <ol type="A" class="list-none space-y-1 mt-2">
+                    <li>A. Validate Scope</li>
+                    <li>B. Perform Integrated Change Control</li>
+                    <li>C. Close Project or Phase</li>
+                    <li>D. Control Quality</li>
+                </ol>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                C. Close Project or Phase
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                Close Project or Phase involves finalizing all activities across all Process Groups to formally complete the project or a project phase.
+            </div>
+        </div>
+
+        <!-- Question 100 (New) -->
+        <div class="question-answer bg-light-blue border border-medium-gray p-5 my-4 rounded-lg shadow-sm">
+            <div class="question">
+                <h4 class="text-lg font-medium text-dark-blue mb-2">In Agile, what is a "User Story"?</h4>
+            </div>
+            <div class="answer text-primary-blue mt-2 font-semibold">
+                A short, simple description of a feature told from the perspective of the person who desires the new capability, usually formatted as: "As a [role], I want [capability], so that [reason]."
+            </div>
+            <div class="answer-explanation italic text-text-light text-sm mt-3">
+                User stories are a primary way to capture requirements in Agile, focusing on value and allowing for flexibility.
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Ask Alex Chatbot Modal (Initially hidden) -->
+    <div id="askAlexModal" class="modal-overlay">
+        <div class="modal-content w-11/12 md:w-2/3 lg:w-1/2 xl:w-2/5 h-[80vh] flex flex-col">
+            <div class="flex justify-between items-center bg-primary-blue text-white p-4 rounded-t-xl">
+                <h2 class="text-2xl font-bold">Ask Alex!</h2>
+                <button id="closeAlexModalBtn" class="text-white hover:text-gray-200 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <p class="text-center text-text-dark p-4 bg-light-gray rounded-b-lg">Your personal Project Management tutor, ready to answer questions, generate practice questions, and help with formulas.</p>
+
+            <!-- Chat history display area -->
+            <div id="chatHistory" class="flex-1 bg-light-gray p-4 rounded-b-lg mb-4 overflow-y-auto border border-medium-gray flex flex-col space-y-3">
+                <div class="flex justify-start">
+                    <div class="bg-blue-100 text-dark-blue p-3 rounded-xl max-w-[80%] shadow-sm text-sm">
+                        Hi there! I'm Alex, your PMP guide. Ask me anything about project management!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat input and controls -->
+            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 p-4 bg-white rounded-b-xl">
+                <input type="text" id="userInput" placeholder="Ask Alex a question or type 'Generate Question'..."
+                       class="flex-1 p-3 border border-medium-gray rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-blue text-text-dark">
+                <button id="sendMessageBtn"
+                        class="bg-primary-blue hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary-blue focus:ring-opacity-50 flex-shrink-0">
+                    Send
+                </button>
+                <button id="clearChatBtn"
+                        class="bg-gray-400 hover:bg-gray-500 text-white font-bold py-3 px-6 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 flex-shrink-0">
+                    Clear Chat
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const askAlexBtn = document.getElementById('askAlexBtn');
+        const askAlexModal = document.getElementById('askAlexModal');
+        const closeAlexModalBtn = document.getElementById('closeAlexModalBtn');
+        const userInput = document.getElementById('userInput');
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+        const clearChatBtn = document.getElementById('clearChatBtn');
+        const chatHistoryDiv = document.getElementById('chatHistory');
+        const documentContentDiv = document.getElementById('content'); // Get the main content div
+
+        let chatHistory = []; 
+
+        /**
+         * Toggles the visibility of the chatbot modal.
+         */
+        function toggleAlexModal() {
+            askAlexModal.classList.toggle('show');
+            if (askAlexModal.classList.contains('show')) {
+                userInput.focus(); // Focus input when modal opens
+            }
+        }
+
+        /**
+         * Appends a message to the chat history display.
+         * @param {string} message The text content of the message.
+         * @param {string} sender 'user' or 'alex'.
+         */
+        function appendMessage(message, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('flex', sender === 'user' ? 'justify-end' : 'justify-start');
+
+            const messageBubble = document.createElement('div');
+            // Use spread syntax to add multiple classes from a single string correctly
+            messageBubble.classList.add(
+                ...(sender === 'user' ? 'bg-primary-blue text-white' : 'bg-blue-100 text-dark-blue').split(' '),
+                'p-3', 'rounded-xl', 'max-w-[80%]', 'shadow-sm', 'text-sm'
+            );
+            messageBubble.innerHTML = formatAlexResponse(message); // Use innerHTML for markdown
+
+            messageDiv.appendChild(messageBubble);
+            chatHistoryDiv.appendChild(messageDiv);
+
+            // Scroll to the bottom of the chat history
+            chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
+        }
+
+        /**
+         * Formats Alex's response, converting common markdown elements to HTML.
+         * Basic markdown support for bold, italics, lists, and code blocks.
+         * @param {string} text The raw text from Alex.
+         * @returns {string} HTML formatted text.
+         */
+        function formatAlexResponse(text) {
+            // Convert bold: **text** or __text__ to <strong>text</strong>
+            text = text.replace(/\*\*(.*?)\*\*|__(.*?)__/g, '<strong>$1$2</strong>');
+            // Convert italics: *text* or _text_ to <em>text</em>
+            text = text.replace(/(?<!\*)\*(?!\*)(.*?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
+            text = text.replace(/(?<!_)_(?!_)(.*?)(?<!_)_(?!_)/g, '<em>$1</em>');
+
+            // Handle code blocks (multi-line)
+            text = text.replace(/```(.*?)```/gs, '<pre class="bg-gray-200 p-2 rounded-md overflow-x-auto text-xs my-2"><code>$1</code></pre>');
+            // Handle inline code: `code`
+            text = text.replace(/`([^`]+)`/g, '<code class="bg-gray-200 px-1 py-0.5 rounded text-xs">$1</code>');
+
+            // Handle lists (simple, assumes each list item starts on a new line with *, -, or number.)
+            let formattedText = text.split('\n').map(line => {
+                if (line.match(/^\s*[-\*]\s/)) { // Bullet points
+                    return `<li class="ml-4">${line.replace(/^\s*[-\*]\s/, '')}</li>`;
+                } else if (line.match(/^\s*\d+\.\s/)) { // Numbered lists
+                    return `<li class="ml-4">${line.replace(/^\s*\d+\.\s/, '')}</li>`;
+                }
+                return line;
+            }).join('\n');
+
+            // Wrap lines that might be part of a list or general text in paragraphs if not already wrapped
+            formattedText = formattedText.split('\n').map(line => {
+                if (line.trim() === '') return '';
+                if (line.startsWith('<li') || line.startsWith('<pre') || line.startsWith('<code') || line.startsWith('<strong') || line.startsWith('<em')) {
+                    return line; // Already formatted, return as is
+                }
+                return `<p class="mb-1">${line.trim()}</p>`;
+            }).join('');
+
+            return formattedText;
+        }
+
+
+        /**
+         * Simulates a chatbot response based on user input and document content.
+         * @param {string} prompt The user's input.
+         */
+        async function sendMessage(prompt) {
+            appendMessage(prompt, 'user');
+            userInput.value = ''; // Clear input field
+
+            // Simulate loading indicator
+            const loadingDiv = document.createElement('div');
+            loadingDiv.classList.add('flex', 'justify-start');
+            loadingDiv.innerHTML = `
+                <div class="bg-blue-100 text-dark-blue p-3 rounded-xl max-w-[80%] shadow-sm text-sm animate-pulse">
+                    Alex is thinking...
+                </div>
+            `;
+            chatHistoryDiv.appendChild(loadingDiv);
+            chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
+
+            let alexResponse = "";
+            const lowerCasePrompt = prompt.toLowerCase();
+            const documentText = documentContentDiv ? documentContentDiv.innerText.toLowerCase() : ""; // Get text from the main document
+
+            if (lowerCasePrompt.includes('generate question') || lowerCasePrompt.includes('practice question')) {
+                alexResponse = `**Question:** During the Executing Process Group, a project manager discovers that a critical team member is unexpectedly leaving the project. This situation poses a significant threat to the project's schedule. What is the _most appropriate_ immediate action for the project manager to take?
+
+A. Update the project management plan and baselines immediately.
+B. Initiate a change request to formally document the impact and propose a solution.
+C. Identify the impact on project objectives and evaluate alternative solutions with the team.
+D. Escalate the issue to the project sponsor for guidance.
+
+**Answer:** C. Identify the impact on project objectives and evaluate alternative solutions with the team.
+
+**Explanation:** While all options might eventually be necessary, the _immediate_ and most appropriate action is to understand the full impact of the team member's departure on the project objectives (especially the schedule) and collaboratively brainstorm solutions with the remaining team. Options A and B are subsequent steps that would occur after assessing the situation and formulating a plan. Option D might be necessary if the impact is severe and cannot be resolved by the team, but it's not the first immediate step.`;
+            } else if (lowerCasePrompt.includes('summarize') || lowerCasePrompt.includes('summary of document')) {
+                alexResponse = `Alright, I can give you a concise summary of the Project Management Mastery Guide.
+
+The guide is designed to help you pass the PMI PMP exam. It covers fundamental project management concepts, including:
+* **PMI and PMP Exam Overview:** What PMI is, the PMP exam format (180 questions, 230 minutes), and eligibility requirements.
+* **Project Management Framework:** Distinguishes between projects, programs, and portfolios, and introduces the 5 Process Groups (Initiating, Planning, Executing, Monitoring & Controlling, Closing) and 10 Knowledge Areas (e.g., Integration, Scope, Schedule, Cost, Risk, Agile).
+* **Key Tools and Formulas:** Explains important techniques like Critical Path Method (CPM) and Earned Value Management (EVM) with relevant formulas (CV, SV, CPI, SPI).
+* **Agile and Hybrid Methodologies:** Introduces Agile principles and common elements like the Agile Manifesto.
+* **Exam Strategies and Sample Questions:** Offers advice on time management during the exam (e.g., the 80-80-70 rule) and provides numerous practice questions with detailed explanations.
+
+In essence, it's a comprehensive, last-minute review for aspiring PMP certification holders.`;
+            } else if (lowerCasePrompt.includes('what is pmi') || lowerCasePrompt.includes('what is pmp')) {
+                alexResponse = "PMI is the Project Management Institute, the leading global organization dedicated to advancing project management principles. The PMP (Project Management Professional) is their most recognized certification, validating your knowledge and experience in leading projects effectively across various industries.";
+            } else if (lowerCasePrompt.includes('earned value') || lowerCasePrompt.includes('evm formulas')) {
+                alexResponse = `Earned Value Management (EVM) is a method to measure project performance. Here are some key formulas:
+* **Cost Variance (CV):** ${'$EV - AC$'} (Earned Value - Actual Cost)
+* **Schedule Variance (SV):** ${'$EV - PV$'} (Earned Value - Planned Value)
+* **Cost Performance Index (CPI):** ${'$EV / AC$'}
+* **Schedule Performance Index (SPI):** ${'$EV / PV$'}
+* **Estimate To Complete (ETC):** ${'$(BAC - EV) / CPI$'} (if original budget is still valid)
+* **Estimate At Completion (EAC):** ${'$AC + ETC$'}
+`;
+            } else if (lowerCasePrompt.includes('what are the process groups')) {
+                alexResponse = `The five Project Management Process Groups are:
+1.  **Initiating:** Defines a new project or phase, obtains authorization.
+2.  **Planning:** Establishes scope, objectives, and course of action.
+3.  **Executing:** Completes the work defined by the plan.
+4.  **Monitoring & Controlling:** Tracks, reviews, and regulates progress and performance.
+5.  **Closing:** Finalizes all activities and formally closes the project.`;
+            } else if (lowerCasePrompt.includes('what are the knowledge areas')) {
+                alexResponse = `There are ten Project Management Knowledge Areas:
+1.  Integration Management
+2.  Scope Management
+3.  Schedule Management
+4.  Cost Management
+5.  Quality Management
+6.  Resource Management
+7.  Communications Management
+8.  Risk Management
+9.  Procurement Management
+10. Stakeholder Management`;
+            }
+            else if (lowerCasePrompt.includes('what is agile')) {
+                alexResponse = `Agile is an iterative approach to project management and software development that helps teams deliver value to their customers faster and with fewer headaches. Instead of big-bang launches, agile teams deliver work in small, but consumable, increments. The Agile Manifesto values:
+* Individuals and interactions over processes and tools
+* Working software over comprehensive documentation
+* Customer collaboration over contract negotiation
+* Responding to change over following a plan`;
+            } else if (lowerCasePrompt.includes('exam time management') || lowerCasePrompt.includes('80-80-70 rule')) {
+                alexResponse = `The guide suggests the 80-80-70 rule for time management during the PMP exam:
+* **First 60 questions:** Approximately 80 minutes.
+* **Questions 61-120:** Another 80 minutes.
+* **Questions 121-180:** About 70 minutes.
+This strategy helps maintain a steady pace and allows time for reviewing marked questions.`;
+            } else if (lowerCasePrompt.includes('what is wbs')) {
+                alexResponse = `The Work Breakdown Structure (WBS) is a deliverable-oriented hierarchical decomposition of the total scope of work to be carried out by the project team to accomplish the project objectives and create the required deliverables. It's a key output of Scope Management.`;
+            } else if (lowerCasePrompt.includes('critical path')) {
+                alexResponse = `The Critical Path Method (CPM) is a project management technique used to determine the longest sequence of activities that must be completed on time for the project to be completed on time. It helps identify critical activities that, if delayed, will delay the entire project.`;
+            } else if (lowerCasePrompt.includes('what is a project charter')) {
+                alexResponse = `The Project Charter is a document that formally authorizes the existence of a project and provides the project manager with the authority to apply organizational resources to project activities. It's developed during the Initiating process group.`;
+            } else if (lowerCasePrompt.includes('functional organization')) {
+                alexResponse = `A Functional Organization is an organizational structure where personnel are grouped by department or functional area (e.g., engineering, marketing). In this structure, project managers typically have limited authority, and team members report primarily to their functional managers.`;
+            } else if (lowerCasePrompt.includes('projectized organization')) {
+                alexResponse = `In a Projectized Organization, team members are typically co-located and report directly to the project manager, who has high authority. Resources are often dedicated to the project, fostering strong project focus.`;
+            } else if (lowerCasePrompt.includes('risk transference')) {
+                alexResponse = `Risk Transference is a risk response strategy that involves shifting the impact of a threat along with ownership of the response to a third party. Common examples include insurance, performance bonds, warranties, and outsourcing the work.`;
+            } else if (lowerCasePrompt.includes('expert judgment')) {
+                alexResponse = `Expert Judgment refers to judgment provided based on expertise in an application area, discipline, industry, or knowledge area acquired from experience, training, and certification. It's a widely used tool and technique across many project management processes.`;
+            } else if (lowerCasePrompt.includes('definition of done') || lowerCasePrompt.includes('dod')) {
+                alexResponse = `In Scrum, the "Definition of Done" (DoD) is a shared understanding of what it means for work to be complete, adhering to quality standards. It ensures transparency and provides a common reference point for the Development Team regarding the quality and completeness of increment features.`;
+            } else if (lowerCasePrompt.includes('contact')) {
+                alexResponse = "For support or more information, please refer to the contact details provided within the PMP Mastery Guide document itself.";
+            } else {
+                alexResponse = "I'm designed to help you with Project Management concepts, practice questions, and formulas, especially those covered in this guide. Try asking me to 'summarize the document' or asking about 'EVM formulas', 'Agile', or 'process groups'!";
+            }
+
+            chatHistoryDiv.removeChild(loadingDiv); // Remove loading indicator
+            appendMessage(alexResponse, 'alex');
+            chatHistory.push({ role: 'user', text: prompt });
+            chatHistory.push({ role: 'alex', text: alexResponse });
+        }
+
+        // Event Listeners for Modal
+        if (askAlexBtn) {
+            askAlexBtn.addEventListener('click', toggleAlexModal);
+        } else {
+            console.error("Element with ID 'askAlexBtn' not found.");
+        }
+        
+        if (closeAlexModalBtn) {
+            closeAlexModalBtn.addEventListener('click', toggleAlexModal);
+        } else {
+            console.error("Element with ID 'closeAlexModalBtn' not found.");
+        }
+
+        if (askAlexModal) {
+            askAlexModal.addEventListener('click', (e) => {
+                if (e.target === askAlexModal) { // Close when clicking outside the modal content
+                    toggleAlexModal();
+                }
+            });
+        } else {
+            console.error("Element with ID 'askAlexModal' not found.");
+        }
+
+
+        if (sendMessageBtn) {
+            sendMessageBtn.addEventListener('click', () => {
+                const userText = userInput.value.trim();
+                if (userText) {
+                    sendMessage(userText);
+                }
+            });
+        } else {
+            console.error("Element with ID 'sendMessageBtn' not found.");
+        }
+
+        if (userInput) {
+            userInput.addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    const userText = userInput.value.trim();
+                    if (userText) {
+                        sendMessage(userText);
+                    }
+                }
+            });
+        } else {
+            console.error("Element with ID 'userInput' not found.");
+        }
+
+        if (clearChatBtn) {
+            clearChatBtn.addEventListener('click', () => {
+                // Re-initialize the chat history div with the initial Alex message
+                chatHistoryDiv.innerHTML = `
+                    <div class="flex justify-start">
+                        <div class="bg-blue-100 text-dark-blue p-3 rounded-xl max-w-[80%] shadow-sm text-sm">
+                            Hi there! I'm Alex, your PMP guide. Ask me anything about project management!
+                        </div>
+                    </div>
+                `;
+                chatHistory = []; // Reset chat history
+            });
+        } else {
+            console.error("Element with ID 'clearChatBtn' not found.");
+        }
+    </script>
+</body>
+</html>
